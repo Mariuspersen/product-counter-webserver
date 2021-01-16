@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<title>Production</title>
+
+<body id="Products" style="background-color: black;margin: 0; color:rgb(0, 255, 0);   text-align: center; font-family:sans-serif; font-size: 10vw;"
+    onload="getCount();">
+    <p style="margin: 0;">Produced so far:</p>
+    <script>
+        async function getCount() {
+            let response = await fetch(`/count`);
+            console.log(response)
+            if (response.ok) {
+                let json = await response.json();
+                json.forEach(product => {
+                let tag = document.createElement("p");
+                tag.setAttribute("id", product.name)
+                tag.setAttribute("style", "margin:0")
+                let text = document.createTextNode(`${product.name}: ${product.count}`);
+                tag.appendChild(text);
+                document.getElementById("Products").appendChild(tag);
+                    
+                });
+            } else {
+                alert("HTTP-Error: " + response.status);
+            }
+        }
+        async function updateCount() {
+            let response = await fetch(`${document.URL}count`);
+            if (response.ok) {
+                let json = await response.json();
+                json.forEach(product => {
+                document.getElementById(product.name).innerHTML = `${product.name.charAt(0).toUpperCase() + product.name.slice(1)}: ${product.count}`;
+                });
+            }
+        }
+        setInterval('updateCount()', 1000);
+    </script>
+</body>
+
+</html>
