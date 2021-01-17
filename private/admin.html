@@ -6,25 +6,40 @@
     style="background-color: black;margin: 0; color:rgb(0, 255, 0);   text-align: center; font-family:sans-serif; font-size: 10vw;"
     onload="getCount();">
     <div class="login" id="login">
+        <p style="font-size:50px;margin: 0;">Login</p>
         <input type="password" id="password" placeholder="Password" required="required" autofocus
             onkeypress="enterKeyPressed(event)" />
         <button type="submit" onclick="checkPass()" class="btn btn-primary btn-block btn-large">Submit</button>
     </div>
-    <div class="row" id="Products" style="visibility: hidden;">
+    <div class="login" id="Add" style="visibility: hidden; ">
+        <p style="font-size:50px;margin: 0;">Add Product</p>
+        <input id="newProduct" placeholder="Product" required="required" autofocus>
+        <button class="btn btn-primary btn-block btn-large" onclick="setCount('add','add')">Add</button>
+    </div>
+    
+    <div id="Admin" style="visibility: hidden; width: 99%;">
         <p style="margin: 0;">Admin Panel</p>
+        <button class="block" onclick="addProduct()">Add product</button>
+
     </div>
 
+
     <script>
-        let op = ["increase", "decrease", "reset"];
+        let op = ["increase", "decrease", "reset", "delete"];
         async function getCount() {
             let response = await fetch(`/count`);
             console.log(response)
             if (response.ok) {
                 let json = await response.json();
+                let Products = document.createElement("div");
+                Products.setAttribute("id", "Products");
+                Products.setAttribute("class","row")
+                document.getElementById("Admin").appendChild(Products)
                 json.forEach(product => {
                     let column = document.createElement("div")
                     column.setAttribute("id", product.name)
                     column.setAttribute("class", "column")
+                    column.setAttribute("style", `width: ${100 / json.length}%`)
                     document.getElementById("Products").appendChild(column);
                     op.forEach(operation => {
                         let button = document.createElement("button")
@@ -41,21 +56,45 @@
             }
         }
         async function setCount(product, op) {
-            let response = await fetch(`/edit?product=${product}&op=${op}`)
-            console.log(response);
+            if (op === "delete" || op === "add") {
+                if(op==="add")  await fetch(`update?product=${document.getElementById("newProduct").value}&option=${op}`);
+                if(op==="delete")  await fetch(`update?product=${product}&option=${op}`);
+                document.getElementById("Add").style.visibility = "hidden";
+                document.getElementById("Admin").style.visibility = "visible";
+                [...document.getElementsByClassName("row")].map(n => n && n.remove());
+                getCount();
+            }
+            else {
+                let response = await fetch(`/edit?product=${product}&op=${op}`)
+                console.log(response);
+            }
         }
         async function checkPass() {
             let response = await fetch(`/password?password=${document.getElementById("password").value}`);
             let correct = await response.text() == 'true'
             if (correct) {
                 document.getElementById("login").style.visibility = "hidden";
-                document.getElementById("Products").style.visibility = "visible";
+                document.getElementById("Admin").style.visibility = "visible";
             }
             else alert("Wrong password");
         }
         function enterKeyPressed(event) {
             if (event.keyCode == 13)
                 checkPass();
+        }
+        function addProduct() {
+            document.getElementById("Admin").style.visibility = "hidden";
+            document.getElementById("Add").style.visibility = "visible";
+        }
+        Element.prototype.remove = function () {
+            this.parentElement.removeChild(this);
+        }
+        NodeList.prototype.remove = HTMLCollection.prototype.remove = function () {
+            for (var i = this.length - 1; i >= 0; i--) {
+                if (this[i] && this[i].parentElement) {
+                    this[i].parentElement.removeChild(this[i]);
+                }
+            }
         }
     </script>
     <style>
@@ -73,7 +112,6 @@
 
         .column {
             float: left;
-            width: 33%;
         }
 
         /* Clear floats after the columns */

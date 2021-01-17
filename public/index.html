@@ -6,16 +6,18 @@
     onload="getCount();">
     <p style="margin: 0;">Produced so far:</p>
     <script>
+        let productCount;
         async function getCount() {
             let response = await fetch(`/count`);
             console.log(response)
             if (response.ok) {
                 let json = await response.json();
+                productCount = json.length;
                 json.forEach(product => {
                 let tag = document.createElement("p");
                 tag.setAttribute("id", product.name)
                 tag.setAttribute("style", "margin:0")
-                let text = document.createTextNode(`${product.name}: ${product.count}`);
+                let text = document.createTextNode(`${product.name.charAt(0).toUpperCase() + product.name.slice(1)}: ${product.count}`);
                 tag.appendChild(text);
                 document.getElementById("Products").appendChild(tag);
                     
@@ -28,9 +30,16 @@
             let response = await fetch(`${document.URL}count`);
             if (response.ok) {
                 let json = await response.json();
-                json.forEach(product => {
-                document.getElementById(product.name).innerHTML = `${product.name.charAt(0).toUpperCase() + product.name.slice(1)}: ${product.count}`;
+                console.log(json)
+                try {
+                    json.forEach(product => {
+                    document.getElementById(product.name).innerHTML = `${product.name.charAt(0).toUpperCase() + product.name.slice(1)}: ${product.count}`;
                 });
+                } catch (error) {
+                    location.reload();
+                }
+                if(json.length !== productCount)
+                    location.reload();
             }
         }
         setInterval('updateCount()', 1000);

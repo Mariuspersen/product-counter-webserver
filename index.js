@@ -38,20 +38,41 @@ app.get('/edit', function (req, res) {
     console.log(productQuery);
 });
 
+app.get('/update', function (req, res) {
+    delete require.cache[require.resolve('./count.json')];
+    let data = require('./count.json');
+    let productQuery = req.query;
+    let index = data.findIndex(x => x.name.toLowerCase() === productQuery.product.toLowerCase());
+    switch (productQuery.option) {
+        case 'delete':
+            if (index != -1) data = data.filter(x => x.name.toLowerCase() !== productQuery.product.toLowerCase());
+            break;
+        case 'add':
+            if (index == -1) data.push({ name: productQuery.product, count: 0 });
+            break;
+        default:
+            break;
+    }
+    fs.writeFileSync('./count.json', JSON.stringify(data));
+    res.send(data);
+    console.log(data);
+});
+
 app.get('/count', (req, res) => {
+    delete require.cache[require.resolve('./count.json')];
     let data = require('./count.json');
     console.log("sending data");
     res.json(data);
 });
 
-app.get('/password',async (req,res) => {
+app.get('/password', async (req, res) => {
     let data = require('./password.json');
     let password = req.query.password;
-    const correct =  await bcrypt.compare(password,data.hash);
+    const correct = await bcrypt.compare(password, data.hash);
     res.send(correct);
 })
 
-app.listen(port,async () => {
+app.listen(port, async () => {
     try {
 
         await require('./count.json');
@@ -70,7 +91,7 @@ app.listen(port,async () => {
             output: process.stdout
         });
         rl.question("No password.json found, enter a admin password: ", function (answer) {
-            fs.writeFileSync('./password.json', JSON.stringify({ hash:`${bcrypt.hashSync(answer, 10)}`}));
+            fs.writeFileSync('./password.json', JSON.stringify({ hash: `${bcrypt.hashSync(answer, 10)}` }));
             rl.close();
         });
     }
