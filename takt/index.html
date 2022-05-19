@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script defer src="index.js"></script>
+    <title>Takt Time</title>
+</head>
+<body id="body">
+    <audio id="warningSound" style="visibility: hidden;" preload="auto">
+        <source src="/warning" type="audio/wav">
+    </audio>
+
+    <audio id="breakSound" style="visibility: hidden;" preload="auto">
+        <source src="/break" type="audio/mp3">
+    </audio>
+
+    <audio id="startSound" style="visibility: hidden;" preload="auto">
+        <source src="/start" type="audio/mp3">
+    </audio>
+
+    <div id="clock">
+        <h1 id="time">Clock</h1>
+        <h1 id="date">and</h1>
+        <h1 id="week">Takt Time</h1>   
+    </div>
+    
+    <div id="progressBar">
+        <div id="labels">
+            <label id="startTime">Start</label>
+            <label id="endTime">Finish</label>
+        </div>
+        <progress id="progress" max="100" value="100" data-label="TBA"> </progress>
+    </div>
+</body>
+</html>

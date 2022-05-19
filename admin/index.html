@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script defer src="index.js"></script>
+    <title>Production Admin</title>
+</head>
+
+<body>
+    <div class="login" id="login">
+        <p>Login</p>
+        <input type="password" id="password" placeholder="Password" required="required" autofocus
+            onkeypress="enterKeyPressed(event)" />
+        <button type="submit" onclick="checkPass()" class="btn btn-primary btn-block btn-large">Submit</button>
+    </div>
+    <div class="login" id="Add" style="visibility: hidden; ">
+        <p>Add Product</p>
+        <input id="newProduct" onkeypress="enterKeyPressed(event)" onfocus="this.value=''" placeholder="Product"
+            required="required" autofocus>
+        <button class="btn btn-primary btn-block btn-large" onclick="setCount('add','add')">Add</button>
+    </div>
+    <div class="login" id="Plan" style="visibility: hidden; ">
+        <p>Change Plan</p>
+        <input id="planProduct" onkeypress="enterKeyPressed(event)" onfocus="this.value=''"
+            placeholder="Input plan here" required="required" autofocus>
+        <button id="planButton" class="btn btn-primary btn-block btn-large" onclick="setPlan('add','add')">Add</button>
+    </div>
+    <div id="Admin" style="visibility: hidden; width: 99%;">
+        <p style="margin: 0;">Admin Panel</p>
+        <div class="rowa">
+            <div class="column" style="width: 50%;">
+                <button class="block" onclick="addProduct()">Add product</button>
+            </div>
+            <div class="column" style="width: 50%;">
+                <button id="pause" class="block" onclick="toggle()">Pause</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

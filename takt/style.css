@@ -1,0 +1,139 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: sans-serif;
+}
+
+body {
+  position: relative;
+  box-sizing: border-box;
+  /*display: flex;*/
+  flex-direction: column;
+  align-items: stretch;
+  color: var(--main-color);
+  background-color: var(--main-background-color);
+  background-image: linear-gradient(to bottom,var(--secondary-background-color),var(--main-background-color));
+}
+
+h1 {
+  background: -webkit-linear-gradient(var(--main-color), var(--secondary-color));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#clock {
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+  width: 100%;
+  flex: 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+#time {
+  font-size: 22vw;
+  flex: 0;
+  margin: 0;
+}
+
+#date {
+  font-size: 8vw;
+  flex: 0;
+  margin: 0;
+}
+
+#week {
+  font-size: 9vw;
+  flex: 0;
+  margin: 0;
+}
+
+#progressBar {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  flex: 1;
+}
+
+#labels {
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  width: 100%;
+  flex: 0;
+
+}
+
+#startTime {
+  font-size: 2vw;
+  flex: 1;
+  text-align: left;
+
+}
+
+#endTime {
+  font-size: 2vw;
+  flex: 1;
+  text-align: right;
+}
+
+#progressBar {
+  flex: 1;
+}
+
+#progressBar progress {
+  -webkit-appearance: none;
+  height: 10vh;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+#progressBar progress::after {
+  color: var(--tertiary-color);
+  content: attr(data-label);
+  font-size: 5vh;
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+}
+
+#progressBar progress {
+  background-image: -webkit-linear-gradient(to bottom, var(--main-color), var(--secondary-color));
+  background-image: linear-gradient(to bottom, var(--main-color), var(--secondary-color));
+}
+
+#progressBar progress::-webkit-progress-bar {
+  background-color: var(--main-background-color);
+  color: var(--main-color);
+}
+
+#progressBar progress::-webkit-progress-inner-element {
+  border: 5px solid transparent;
+  border-image: -webkit-linear-gradient(to bottom, var(--main-color), var(--secondary-color));
+  border-image: linear-gradient(to bottom, var(--main-color), var(--secondary-color));
+  border-image-slice: 1;
+  background-image: -webkit-linear-gradient(to bottom, var(--main-color), var(--secondary-color));
+  background-image: linear-gradient(to bottom, var(--main-color), var(--secondary-color));
+}
+
+#progressBar progress::-webkit-progress-value {
+  background-image: -webkit-linear-gradient(to bottom, var(--main-color), var(--secondary-color));
+  background-image: linear-gradient(to bottom, var(--main-color), var(--secondary-color));
+  border: 10px solid var(--main-background-color);
+}
+
+:root {
+  --main-color: #00FF00;
+  --secondary-color: #006600;
+  --tertiary-color: #CCCCCC;
+  --main-background-color: #000000;
+  --secondary-background-color: #333333;
+}

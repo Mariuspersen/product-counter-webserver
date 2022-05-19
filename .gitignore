@@ -1,0 +1,8 @@
+.vscode
+node_modules
+count.json
+password.json
+takttime.json
+public/break
+public/start
+public/warning
