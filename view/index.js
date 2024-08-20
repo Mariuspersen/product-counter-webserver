@@ -16,7 +16,7 @@ setInterval( async () => {
         p.innerHTML = `${product.name}: ${product.count}/${product.plan}`;
         products.appendChild(p);
     });
-    if(products.children.length - 1 > products_json.length) {
+    if(products.children.length != products_json.length) {
         location.reload();
     }
 },1000)
